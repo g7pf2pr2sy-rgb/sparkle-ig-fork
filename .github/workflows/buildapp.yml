@@ -14,8 +14,10 @@ on:
                 required: true
                 type: string
             upload_artifact:
-                description: "Upload Artifact"
-                default: true
+                # Off by default: on a public fork any signed-in GitHub user can
+                # download a run's artifacts. The draft release stays private.
+                description: "Upload Artifact (public on a public repo)"
+                default: false
                 required: false
                 type: boolean
             with_flex:
@@ -94,16 +96,24 @@ jobs:
 
             - name: Prepare Instagram IPA
               run: |
+                # Read the link from the event payload instead of the step's
+                # env or script text: both are printed in the run log, which
+                # anyone can read on a public fork. Mask it before any output.
+                IPA_URL="$(jq -r '.inputs.decrypted_instagram_url' "$GITHUB_EVENT_PATH")"
+                echo "::add-mask::$IPA_URL"
+
                 cd main
 
                 mkdir -p packages
-                wget "$Instagram_URL" --no-verbose -O packages/com.burbn.instagram.ipa
+                # curl -sS prints errors but never the (redirected) URL.
+                curl -fL --retry 3 -sS -o packages/com.burbn.instagram.ipa "$IPA_URL"
+
+                if ! unzip -l packages/com.burbn.instagram.ipa >/dev/null 2>&1; then
+                  echo "::error::The download is not an IPA. Check that the link downloads the file directly (Dropbox links need dl=1)."
+                  exit 1
+                fi
 
                 ls -la packages
-                
-              env:
-                THEOS: ${{ github.workspace }}/theos
-                Instagram_URL: ${{ inputs.decrypted_instagram_url }}
 
             - name: Get Sparkle Version
               id: sparkle_version
