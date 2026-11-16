@@ -138,6 +138,7 @@ FOUNDATION_EXPORT void SPKInstallSearchStoryViewersHooksIfEnabled(void);
 FOUNDATION_EXPORT void SPKInstallStoryVideoStickerHooksIfEnabled(void);
 FOUNDATION_EXPORT void SPKInstallHideRecentHighlightsHooksIfEnabled(void);
 FOUNDATION_EXPORT void SPKInstallStoryHighlightTrayTrackingHooksIfNeeded(void);
+FOUNDATION_EXPORT void SPKInstallDailyLimitHooksIfEnabled(void);
 
 // Master kill switch: when YES, suppress all feature hook installation, but
 // keep the home long-press shortcut so users can still reach Settings to turn
@@ -394,6 +395,8 @@ void SPKInstallGeneralUIHooksIfNeeded(void) {
     SPK_INSTALL(SPKInstallCaptureHidingHooksIfNeeded);
     SPK_INSTALL(SPKInstallFixDuplicateNotificationsHooksIfNeeded);
     SPK_INSTALL(SPKInstallOpenPostNativePushHooksIfNeeded);
+    // Last, so its Explore hooks wrap Sparkle's Hide Explore Grid hooks above.
+    SPK_INSTALL(SPKInstallDailyLimitHooksIfEnabled);
 }
 
 void SPKInstallEnabledFeatureHooks(void) {

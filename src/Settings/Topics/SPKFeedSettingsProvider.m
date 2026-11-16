@@ -4,6 +4,7 @@
 #import "../../Features/Feed/HeaderActionButton.h"
 #import "../../Shared/ActionButton/SPKActionButtonConfiguration.h"
 #import "../SPKTopicSettingsSupport.h"
+#import "SPKDailyLimitSettings.h"
 
 static NSString *const kSPKFeedActionButtonEnabledKey = @"feed_action_btn";
 
@@ -90,6 +91,7 @@ static NSString *const kSPKFeedActionButtonEnabledKey = @"feed_action_btn";
                                SPKL(@"FEED_LAYOUT_HIDE_REPOST_BUTTON_HELP"))
         ],
                         nil),
+        SPKDailyLimitSettingsSection(),
         SPKTopicSection(SPKL(@"FEED_METRICS_HEADER"), @[
             [SPKSetting switchCellWithTitle:SPKL(@"FEED_METRICS_HIDE_LIKE_COUNT_TITLE")
                                            icon:SPKSettingsIcon(@"heart")

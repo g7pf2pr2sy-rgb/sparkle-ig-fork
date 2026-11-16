@@ -1166,6 +1166,11 @@ static BOOL SPKPrefIsGlobalKey(NSString *key) {
             @"reels_prevent_doom_scroll",
             @"reels_doom_scroll_limit",
             @"reels_disable_scrolling",
+            // Daily Limit is one timer for the whole app, so switching accounts can
+            // neither reset it nor lift its block.
+            @"feed_daily_limit_hide_feed",
+            @"feed_daily_limit_disable_reels",
+            @"feed_daily_limit_minutes",
             // Instagram keeps one sound state for the whole app, and the hooks that
             // mute it install once per launch, before an account switch can matter.
             @"reels_disable_auto_unmute",

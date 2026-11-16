@@ -213,6 +213,7 @@ static NSDictionary *SPKFeatureDefaults(void) {
         @"reels_stop_looping" : @(NO),
         @"reels_auto_scroll_default" : @"default",
         @"reels_doom_scroll_limit" : @(1),
+        @"feed_daily_limit_minutes" : @(15),
         @"feed_disable_bg_refresh" : @(NO),
         @"general_cache_auto_clear" : @"never",
         @"downloads_enhanced_media_resolution" : @(YES),
